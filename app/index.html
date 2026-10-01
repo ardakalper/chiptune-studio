@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chiptune Studio</title>
+  <meta name="description" content="A chiptune tracker in the browser: pulse, saw, triangle and noise from a hand-written synth engine, pattern editor with keyboard entry, instruments, effects, AudioWorklet playback, WAV export and share links.">
+  <meta name="theme-color" content="#e9e7e2">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><h1 data-i18n="app.title">Chiptune Studio</h1></div>
+    <p class="tagline" data-i18n="app.tagline"></p>
+    <div class="files">
+      <button class="tb" id="btn-new" data-i18n="file.new">New</button>
+      <button class="tb" id="btn-demo" data-i18n="file.demo">Demo</button>
+      <button class="tb" id="btn-open" data-i18n="file.open">Open</button>
+      <button class="tb" id="btn-save" data-i18n="file.save">Save</button>
+      <button class="tb accent" id="btn-wav" data-i18n="file.wav">Export WAV</button>
+      <button class="tb" id="btn-share" data-i18n="file.share">Share link</button>
+      <label class="field"><span data-i18n="set.lang">Language</span><select id="set-lang"><option value="en">English</option><option value="tr">Türkçe</option></select></label>
+      <input type="file" id="file-open" accept="application/json,.json" hidden>
+    </div>
+  </header>
+
+  <div class="transport">
+    <button class="tb play" id="btn-play" data-i18n="tr.play">Play song</button>
+    <button class="tb" id="btn-pattern" data-i18n="tr.pattern">Play pattern</button>
+    <button class="tb stop" id="btn-stop" data-i18n="tr.stop">Stop</button>
+    <label class="chk"><input type="checkbox" id="follow" checked><span data-i18n="tr.follow">Follow</span></label>
+    <span class="sep"></span>
+    <label class="field row"><span data-i18n="f.title">Title</span><input id="song-title" type="text" maxlength="60"></label>
+    <label class="field row"><span data-i18n="f.bpm">BPM</span><input id="bpm" type="number" min="32" max="255"></label>
+    <label class="field row"><span data-i18n="f.speed">Speed</span><input id="speed" type="number" min="1" max="31"></label>
+    <label class="field row"><span data-i18n="f.octave">Octave</span><input id="octave" type="number" min="0" max="8"></label>
+    <label class="field row"><span data-i18n="f.step">Step</span><input id="step" type="number" min="0" max="16"></label>
+    <canvas id="scope" width="240" height="44" aria-label="Oscilloscope"></canvas>
+  </div>
+
+  <main class="work">
+    <aside class="col order-col">
+      <h3 data-i18n="order.title">Order</h3>
+      <ol class="order" id="order"></ol>
+      <div class="btns">
+        <button class="tb sm" id="ord-add" data-i18n="order.add">Add</button>
+        <button class="tb sm" id="ord-del" data-i18n="order.del">Remove</button>
+        <button class="tb sm" id="ord-inc" data-i18n="order.up">Pattern +</button>
+        <button class="tb sm" id="ord-dec" data-i18n="order.down">Pattern −</button>
+        <button class="tb sm" id="pat-new" data-i18n="order.new">New pattern</button>
+        <button class="tb sm" id="pat-clone" data-i18n="order.clone">Clone</button>
+      </div>
+      <label class="field row"><span data-i18n="f.rows">Rows</span><input id="rows" type="number" min="1" max="128"></label>
+    </aside>
+
+    <section class="grid-wrap">
+      <div class="ch-heads" id="ch-heads"></div>
+      <div class="grid" id="grid" tabindex="0" aria-label="Pattern"></div>
+    </section>
+
+    <aside class="col inst-col">
+      <h3 data-i18n="inst.title">Instruments</h3>
+      <ul class="inst-list" id="inst-list"></ul>
+      <button class="tb sm" id="inst-add" data-i18n="inst.add">Add</button>
+      <div class="inst-edit" id="inst-edit"></div>
+      <h3 data-i18n="help.title">Keys</h3>
+      <p class="help" data-i18n="help.body"></p>
+    </aside>
+  </main>
+
+  <footer class="foot"><span data-i18n="foot.text"></span> <a href="https://github.com/ardakalper/chiptune-studio" data-i18n="foot.source">Source on GitHub</a></footer>
+  <div class="toast" id="toast" hidden role="status"></div>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
